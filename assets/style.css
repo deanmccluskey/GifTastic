@@ -8,6 +8,10 @@
     text-align: center;
 }
 
+.container {
+    margin: 20px;
+}
+
 .button,
 .div,
 .form,
