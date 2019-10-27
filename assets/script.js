@@ -1,105 +1,107 @@
+// Wait for document to load
+$(document).ready(function () {
 
+    // Initialize array for default buttons
+    var animals = ["Bird", "Cat", "Dog"];
+    console.log(animals);
 
-var animals = ["Birds", "Cats", "Dogs"];
+    // Dynamically generate animal buttons for each animal in array
+    function renderButtons() {
+        // Delete animal buttons prior to adding new buttons
+        $("#buttons-view").empty();
+        // Loop through array of animals
+        for (var i = 0; i < animals.length; i++) {
+            console.log(animals[i]);
 
-      // displayAnimalGifs function re-renders the HTML to display the appropriate content
-      function displayAnimalGifs() {
-
-        var animal = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/?t=" + animal + "&api_key=9iCtnbt3iMLZtI9xANJQ1k4IdAT2jegT";
-
-       
-
-
-
-
-// Adding click event listen listener to all buttons
-$("button").on("click", function () {
-    // Grabbing and storing the data-animal property value from the button
-    var animal = $(this).attr("data-animal");
-
-    // Constructing a queryURL using the animal name
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        animal + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
-
-    // Performing an AJAX request with the queryURL
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    })
-        // After data comes back from the request
-        .then(function (response) {
-            console.log(queryURL);
-
-            console.log(response);
-            // storing the data from the AJAX request in the results variable
-            var results = response.data;
-
-            // Looping through each result item
-            for (var i = 0; i < results.length; i++) {
-
-                // Creating and storing a div tag
-                var animalDiv = $("<div>");
-
-                // Creating a paragraph tag with the result item's rating
-                var p = $("<p>").text("Rating: " + results[i].rating);
-
-                // Creating and storing an image tag
-                var animalImage = $("<img>");
-                // Setting the src attribute of the image to a property pulled off the result item
-                animalImage.attr("src", results[i].images.fixed_height.url);
-
-                // Appending the paragraph and image tag to the animalDiv
-                animalDiv.append(p);
-                animalDiv.append(animalImage);
-
-                // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
-                $("#gifs-appear-here").prepend(animalDiv);
-            }
-        });
-});
-/*
-$("button").on("click", function() {
-    // Grabbing and storing the data-animal property value from the button
-    var animal = $(this).attr("data-animal");
-
-    // Constructing a queryURL using the animal name
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-      animal + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
-
-    // Performing an AJAX request with the queryURL
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
-      // After data comes back from the request
-      .then(function(response) {
-        console.log(queryURL);
-
-        console.log(response);
-        // storing the data from the AJAX request in the results variable
-        var results = response.data;
-
-        // Looping through each result item
-        for (var i = 0; i < results.length; i++) {
-
-          // Creating and storing a div tag
-          var animalDiv = $("<div>");
-
-          // Creating a paragraph tag with the result item's rating
-          var p = $("<p>").text("Rating: " + results[i].rating);
-
-          // Creating and storing an image tag
-          var animalImage = $("<img>");
-          // Setting the src attribute of the image to a property pulled off the result item
-          animalImage.attr("src", results[i].images.fixed_height.url);
-
-          // Appending the paragraph and image tag to the animalDiv
-          animalDiv.append(p);
-          animalDiv.append(animalImage);
-
-          // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
-          $("#gifs-appear-here").prepend(animalDiv);
+            // Creates start and end tags (<button></button>)
+            var newBtn = $("<button>");
+            // Add animal class
+            newBtn.addClass("animal");
+            // Add BootStrap class for spacing
+            newBtn.addClass("mx-1");
+            // Add data-attribute with a value of animal at index i
+            newBtn.attr("data-animal", animals[i]);
+            // Provide button's text with value of animal at index i
+            newBtn.text(animals[i]);
+            // Add button to the HTML
+            $("#buttons-view").append(newBtn);
         }
-      });
-  });
+    }
+    // Call function
+    renderButtons();
+
+    // Add click event listener to add animal buttons
+    $("#add-animal").on("click", function (event) {
+        // Prevent form from trying to submit itself
+        // Form can be submitted when user hits enter key instead of clicking button
+        event.preventDefault();
+        // Grab text from input box, trim margins
+        var animalInput = $("#animal-input").val().trim();
+        if (animalInput) {
+            // Add animal from textbox to array
+            animals.push(animalInput);
+            console.log(animalInput);
+            // Call function to handle processing array
+            renderButtons();
+            $("#animal-input").val("");
+        }
+    });
+
+    // Add click event listener to each image tag to toggle still to moving gif
+    $(document).on("click", "img", function () {
+        var imgTag = $(this);
+        var still = imgTag.attr("data-still");
+        var moving = imgTag.attr("data-moving");
+        if (imgTag.attr("src") == still) {
+            imgTag.attr("src", moving);
+        }
+        else {
+            imgTag.attr("src", still);
+        }
+    });
+
+    // Add click event listener to all animal buttons to display the appropriate content
+    $(document).on("click", "button", function () {
+        // Grab, store data-animal property value from button
+        var animal = $(this).attr("data-animal");
+        // Construct queryURL using animal name
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal +
+            "&api_key=9iCtnbt3iMLZtI9xANJQ1k4IdAT2jegT";
+        // Perform AJAX request with queryURL
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+            // After data comes back from the request
+            .then(function (response) {
+                console.log(response);
+                // Store data from AJAX request in results variable
+                var results = response.data;
+                // Loop through 10 result items
+                for (let i = 0; i < 10; i++) {
+                    // Create, store div tag
+                    var animalDiv = $("<div>");
+                    // Create, store image tag, and still, moving images pulled off result item
+                    var animalImage = $("<img>");
+                    var movingImage = results[i].images.fixed_height.url;
+                    var stillImage = results[i].images.fixed_height_still.url;
+                    // Assign moving, still attributes to image tag
+                    animalImage.attr("data-moving", movingImage);
+                    animalImage.attr("data-still", stillImage);
+                    // Set src attribute of still image to image tag 
+                    animalImage.attr("src", stillImage);
+                    // Create paragraph tag with the result item's title
+                    var title = $("<p>").text("Title:  " + results[i].title);
+                    // Append image tag to the animalDiv
+                    animalDiv.append(animalImage);
+                    // Append title to animalDiv
+                    animalDiv.append(title);
+                    animalDiv.append("<br>");
+                    // Prepend animalDiv to the HTML page in the "#animal-gifs" div
+                    $("#animal-gifs").prepend(animalDiv);
+                }
+            });
+    });
+});
+
+// Copyright 2019 Dean A McCluskey

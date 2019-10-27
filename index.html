@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GifTastic</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/style.css">
-    <title>GifTastic</title>
 </head>
-
 <body>
     <div class="wrapper">
         <div class="jumbotron jumbotron-fluid">
             <h1>Animal GIFs</h1>
         </div>
         <div class="container">
-            <!-- Buttons to be added -->
             <div id="buttons-view">
-                buttons
+            <!-- Animal buttons to be added -->
             </div>
             <br>
+            <br>
+            <!-- Form to add new buttons -->
+            <form id="animal-form">
+                <label for="animal-input">Add an Animal!!!</label>
+                <input type="text" id="animal-input">
+                <br>
+                <!-- Button to submit new animal buttons -->
+                <input id="add-animal" type="submit" value="Submit">
+            </form>
+            <br>
+            <br>
             <div class="row">
-                <div class="col-sm5-">
-                        <!-- GIFs to be added -->
-                        <div id="animal-gifs">aGifs</div>
+                <div id="animal-gifs" class="col-sm3">
+                    <!-- GIFs to be added -->
                 </div>
                 <br>
-                <!-- Form to add animals -->
-                <div class="col-sm3-offset9">
-                    <form id="animal-form">
-                        <input type="text" id="animal-input">
-                        <br>
-                        <input id="add-animal" type="submit" value="Add an animal">
-                    </form>
-                </div>
-                
-                
             </div>
-
-            <!-- Define Footer, Enter Info - Copyright, Link to GitHub -->
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <!-- Footer - Copyright, Link to GitHub -->
             <footer>
                 <h6>Copyright &copy; 2019 <a id="myname" href="https://github.com/deanmccluskey">
                         Dean A McCluskey</a></h6>
@@ -49,5 +50,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="assets/script.js"></script>
 </body>
-
 </html>
+
+<!-- Copyright 2019 Dean A McCluskey -->
